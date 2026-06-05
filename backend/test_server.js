@@ -1,0 +1,1 @@
+const express = require('express'); const app = express(); app.listen(3002, () => console.log('started')); setInterval(() => {}, 1000);
