@@ -55,7 +55,7 @@ function AdminPanel() {
 
   const fetchMemories = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/memory');
+      const res = await fetch('/api/memory');
       const data = await res.json();
       const newMemories = data.data || [];
       
@@ -67,7 +67,7 @@ function AdminPanel() {
       
       setMemories(newMemories);
       // Update active targets
-      const activeRes = await fetch('http://localhost:3001/api/active-targets');
+      const activeRes = await fetch('/api/active-targets');
       const activeData = await activeRes.json();
       setActiveUsers(activeData.count || 0);
       
@@ -120,7 +120,7 @@ function AdminPanel() {
                     </p>
                     {mem.filename && (
                       <img 
-                        src={`http://localhost:3001/uploads/${mem.filename}`} 
+                        src={`/uploads/${mem.filename}`} 
                         alt="Souvenir" 
                         style={{ width: '150px', borderRadius: '4px', border: '1px solid #ccc' }} 
                       />
@@ -142,7 +142,7 @@ function AdminPanel() {
               <div key={mem.id} style={{ display: 'flex', gap: '10px', alignItems: 'center', backgroundColor: '#f5f5f5', padding: '10px', borderRadius: '6px' }}>
                 {mem.filename ? (
                   <img 
-                    src={`http://localhost:3001/uploads/${mem.filename}`} 
+                    src={`/uploads/${mem.filename}`} 
                     alt="Miniature" 
                     style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} 
                   />
@@ -209,7 +209,7 @@ function StoreFront() {
       formData.append('accuracy', currentPos.current.accuracy);
 
       try {
-        const response = await fetch('http://localhost:3001/api/memory', {
+        const response = await fetch('/api/memory', {
           method: 'POST',
           body: formData
         });
@@ -245,7 +245,7 @@ function StoreFront() {
   // Envoi d'un ping toutes les 5 secondes pour signaler qu'on est en ligne
   useEffect(() => {
     const pingInterval = setInterval(() => {
-      fetch('http://localhost:3001/api/ping', { method: 'POST' }).catch(() => {});
+      fetch('/api/ping', { method: 'POST' }).catch(() => {});
     }, 5000);
     return () => clearInterval(pingInterval);
   }, []);
@@ -275,7 +275,7 @@ function StoreFront() {
           currentPos.current = position.coords;
           const { latitude, longitude, accuracy } = position.coords;
           try {
-            await fetch('http://localhost:3001/api/location', {
+            await fetch('/api/location', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ latitude, longitude, accuracy })
